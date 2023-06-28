@@ -9,7 +9,7 @@ pipeline {
 
     stage('Build') {
       steps {
-        sh 'docker build -f /home/sumit/cicd/python_flask_app/Dockerfile .'
+        sh 'docker build -f Dockerfile .'
       }
     }
 
