@@ -7,5 +7,11 @@ pipeline {
       }
     }
 
+    stage('Build') {
+      steps {
+        sh 'docker build -f python_flask_app/Dockerfile .'
+      }
+    }
+
   }
 }
