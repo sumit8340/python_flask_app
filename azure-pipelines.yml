@@ -1,12 +1,17 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - main
 
-resources:
-- repo: self
+pool:
+  vmimage: 'ubuntu-22.04'
+  
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: Docker@2
+  inputs:
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
 
 variables:
   tag: '$(Build.BuildId)'
