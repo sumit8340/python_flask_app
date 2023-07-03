@@ -4,31 +4,13 @@ trigger:
 pool:
   vmimage: 'ubuntu-22.04'
   
-variables:
-  buildConfiguration: 'Release'
-
 steps:
-- task: Docker@2
-  inputs:
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+- script: |
+    python3.10 -m venv myenv
+    source myenv/bin/activate
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
 
-variables:
-  tag: '$(Build.BuildId)'
-
-stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        tags: |
-          $(tag)
+- script: |
+    python app.py
+  displayName: 'Run application'
